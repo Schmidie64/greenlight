@@ -463,7 +463,7 @@ de_DE:
     banned: Gesperrt
     deleted: Gelöscht
     pending: Noch nicht erledigt
-    user: Benutzer
+    user: Student/in
   room:
     access_code_required: "Bitte geben Sie einen gültigen Zugangscode ein, um den Raum zu betreten"
     create_room: Raum erstellen
