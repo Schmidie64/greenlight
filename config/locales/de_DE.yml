@@ -174,7 +174,7 @@ de_DE:
         no_users: Kein Teilnehmer gefunden
         role: Rolle
         uid: Teilnehmer ID
-        username: Teilnehmername
+        username: THM-Kennung
       title: Teilnehmer verwalten
   add_to_google_calendar: "Zum Google Kalender hinzufügen"
   bigbluebutton: BigBlueButton
@@ -283,7 +283,7 @@ de_DE:
   language_default: Voreinstellung (Browsersprache)
   ldap_error: "Verbindung zum LDAP Server konnte nicht hergestellt werden. Bitte überprüfen Sie die LDAP Konfiguration und stellen Sie sicher, dass der LDAP-Server läuft."
   login: Einloggen
-  login_title: In Ihr Konto einloggen
+  login_title: Melde dich mit deinen THM-Daten an!
   mailer:
     user:
       approve:
@@ -373,7 +373,7 @@ de_DE:
       title: Nutzer einladen
     login:
       or: oder
-      with: "Einloggen mit %{provider}"
+      with: "Anmelden mit THM-Daten"
       forgot_password: "Passwort vergessen?"
     rename_recording:
     remove_shared:
@@ -479,7 +479,7 @@ de_DE:
     banned: Gesperrt
     deleted: Gelöscht
     pending: Wartend
-    user: Benutzer
+    user: Student/in
   room:
     access_code_required: "Bitte geben Sie einen gültigen Zugangscode ein, um den Raum zu betreten"
     create_room: Raum erstellen

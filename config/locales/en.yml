@@ -480,7 +480,7 @@ en:
     banned: Banned
     deleted: Deleted
     pending: Pending
-    user: User
+    user: Student/in
   room:
     access_code_required: Please enter a valid access code to join the room
     create_room: Create a Room
