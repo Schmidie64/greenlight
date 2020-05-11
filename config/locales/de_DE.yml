@@ -36,7 +36,7 @@ de_DE:
         enabled: Aktiviert
         info: Nur authentifizierte Nutzer dürfen diesen Raum betreten
         title: Betreten des Raums erfordert Authentifizierung
-        user-info: "Sie müssen in Greenlight eingeloggt sein, um diesen Raum zu betreten"
+        user-info: "Sie müssen angemeldet sein, um diesen Raum zu betreten"
       branding:
         change: Bild ändern
         info: Das in der linken oberen Ecke dargestellte Logo ändern
