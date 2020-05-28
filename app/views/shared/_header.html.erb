@@ -48,7 +48,7 @@
               <% end %>
               <span class="ml-2 d-none d-lg-block">
                 <span class="text-default username d-lg-block"><%= current_user.name %></span>
-                <span class="text-default d-lg-block" style="font-size: 12px;line-height:0.5;"><%= translated_role_name(current_user.highest_priority_role) %></span>
+                <span class="text-default d-lg-block" style="font-size: 12px;line-height:0.5;"><%= translated_role_name(current_user.role) %></span>
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" x-placement="bottom-end">
