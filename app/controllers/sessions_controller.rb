@@ -143,10 +143,9 @@ class SessionsController < ApplicationController
     end
 
     result = send_ldap_request(params[:session], ldap_config)
-
     return redirect_to(ldap_signin_path, alert: I18n.t("invalid_credentials")) unless result
 
-    @auth = parse_auth(result.first, ENV['LDAP_ROLE_FIELD'], ENV['LDAP_ATTRIBUTE_MAPPING'])
+    @auth = map_thm_roles(parse_auth(result.first, ENV['LDAP_ROLE_FIELD'], ENV['LDAP_ATTRIBUTE_MAPPING']))
 
     begin
       process_signin
@@ -161,6 +160,17 @@ class SessionsController < ApplicationController
   # Verify that GreenLight is configured to allow user signup.
   def check_user_signup_allowed
     redirect_to root_path unless Rails.configuration.allow_user_signup
+  end
+
+  def map_thm_roles(userInformations)
+    if userInformations['info']['roles']['M'] || userInformations['info']['roles']['J'] || userInformations['info']['roles']['L'] || userInformations['info']['roles']['P'] || userInformations['info']['roles']['W']
+      userInformations['info']['roles'] = "Dozent/in"
+    elsif userInformations['info']['roles']['I']
+      userInformations['info']['roles'] = "Tutor/in"
+    else
+      userInformations['info']['roles'] = "user"
+    end
+    return userInformations
   end
 
   def session_params
