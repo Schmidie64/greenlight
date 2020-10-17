@@ -171,6 +171,12 @@ class SessionsController < ApplicationController
     elsif User.with_role("admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
       userInformations['info']['roles'] = "admin"
       logger.info "[Manual] Role: Admin"
+    elsif User.with_role("Tutor/in*").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "Tutor/in*"
+      logger.info "[Manual] Role: Tutor/in*"
+    elsif User.with_role("Fachschaft").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "Fachschaft"
+      logger.info "[Manual] Role: Fachschaft"
     elsif userInformations['info']['roles']['M'] || userInformations['info']['roles']['J'] || userInformations['info']['roles']['L'] || userInformations['info']['roles']['P'] || userInformations['info']['roles']['W']
       userInformations['info']['roles'] = "Dozent/in"
     elsif userInformations['info']['roles']['I']
