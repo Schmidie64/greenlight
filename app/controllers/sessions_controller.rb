@@ -143,6 +143,7 @@ class SessionsController < ApplicationController
     end
 
     result = send_ldap_request(params[:session], ldap_config)
+
     return redirect_to(ldap_signin_path, alert: I18n.t("invalid_credentials")) unless result
 
     @auth = map_thm_roles(parse_auth(result.first, ENV['LDAP_ROLE_FIELD'], ENV['LDAP_ATTRIBUTE_MAPPING']))
@@ -163,24 +164,21 @@ class SessionsController < ApplicationController
   end
 
   def map_thm_roles(userInformations)
+
     if User.with_role("Dozent/in*").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
       userInformations['info']['roles'] = "Dozent/in*"
       logger.info "[Manual] Role: Dozent/in"
-      return userInformations
-    end
-    if User.with_role("admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+    elsif User.with_role("admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
       userInformations['info']['roles'] = "admin"
       logger.info "[Manual] Role: Admin"
-      return userInformations
-    end
-    if userInformations['info']['roles']['M'] || userInformations['info']['roles']['J'] || userInformations['info']['roles']['L'] || userInformations['info']['roles']['P'] || userInformations['info']['roles']['W']
+    elsif userInformations['info']['roles']['M'] || userInformations['info']['roles']['J'] || userInformations['info']['roles']['L'] || userInformations['info']['roles']['P'] || userInformations['info']['roles']['W']
       userInformations['info']['roles'] = "Dozent/in"
     elsif userInformations['info']['roles']['I']
       userInformations['info']['roles'] = "Tutor/in"
     else
       userInformations['info']['roles'] = "user"
     end
-    return userInformations
+    userInformations
   end
 
   def session_params
