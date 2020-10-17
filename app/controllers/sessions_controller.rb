@@ -164,11 +164,11 @@ class SessionsController < ApplicationController
 
   def map_thm_roles(userInformations)
     if User.with_role("Dozent/in*").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
-      userInformations['info']['roles'] = "Dozent/in"
+      userInformations['info']['roles'] = "Dozent/in*"
       logger.info "[Manual] Role: Dozent/in"
       return userInformations
     end
-    if User.with_role("Admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+    if User.with_role("admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
       userInformations['info']['roles'] = "Dozent/in"
       logger.info "[Manual] Role: Dozent/in"
       return userInformations
