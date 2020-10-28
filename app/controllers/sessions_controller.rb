@@ -25,6 +25,7 @@ class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:omniauth, :fail]
   before_action :check_user_signup_allowed, only: [:new]
   before_action :ensure_unauthenticated_except_twitter, only: [:new, :signin, :ldap_signin]
+  invisible_captcha only: [:create, :ldap], on_spam: :redirect_on_spam, on_timestamp_spam: :redirect_on_spam
 
   # GET /signin
   def signin
@@ -65,6 +66,9 @@ class SessionsController < ApplicationController
   def create
     logger.info "Support: #{session_params[:email]} is attempting to login."
 
+    # Redirect back on too many requests recognized with rack attack
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('too_many_requests') } if request.env['rack.attack.matched']
+
     user = User.include_deleted.find_by(email: session_params[:email].downcase)
 
     is_super_admin = user&.has_role? :super_admin
@@ -102,6 +106,9 @@ class SessionsController < ApplicationController
 
   # GET/POST /auth/:provider/callback
   def omniauth
+    # Redirect back on too many requests recognized with rack attack
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('too_many_requests') } if request.env['rack.attack.matched']
+
     @auth = request.env['omniauth.auth']
 
     begin
@@ -121,8 +128,11 @@ class SessionsController < ApplicationController
     end
   end
 
-  # GET /auth/ldap
+  # POST /auth/ldap
   def ldap
+    # Redirect back on too many requests recognized with rack attack
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('too_many_requests') } if request.env['rack.attack.matched']
+
     ldap_config = {}
     ldap_config[:host] = ENV['LDAP_SERVER']
     ldap_config[:port] = ENV['LDAP_PORT'].to_i != 0 ? ENV['LDAP_PORT'].to_i : 389
@@ -157,6 +167,15 @@ class SessionsController < ApplicationController
   end
 
   private
+
+  # Redirects back with invalid credentials message, so that a bot can't find out whether his request was
+  # recognized as spam or not.
+  #
+  # @private
+  # @!method redirect_on_spam
+  def redirect_on_spam
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('invalid_credentials') }
+  end
 
   # Verify that GreenLight is configured to allow user signup.
   def check_user_signup_allowed

@@ -28,6 +28,7 @@ vendor/bundle
 /log/*
 /tmp
 !/log/.keep
+/throttle.yml
 
 # Ignore Byebug command history file.
 .byebug_history

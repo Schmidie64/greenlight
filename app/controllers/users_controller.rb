@@ -28,9 +28,13 @@ class UsersController < ApplicationController
   before_action :ensure_unauthenticated_except_twitter, only: [:create]
   before_action :check_user_signup_allowed, only: [:create]
   before_action :check_admin_of, only: [:edit, :change_password, :delete_account]
+  invisible_captcha only: [:create], on_spam: :redirect_on_spam, on_timestamp_spam: :redirect_on_spam
 
-  # POST /u
+  # POST /signup
   def create
+    # Redirect back on too many requests recognized with rack attack
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('too_many_requests') } if request.env['rack.attack.matched']
+
     @user = User.new(user_params)
     @user.provider = @user_domain
 
@@ -198,6 +202,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  # Redirects back, so that a bot can't find out whether his request was recognized as spam or not.
+  #
+  # @private
+  # @!method redirect_on_spam
+  def redirect_on_spam
+    return redirect_back fallback_location: root_path
+  end
 
   def find_user
     @user = User.find_by(uid: params[:user_uid])

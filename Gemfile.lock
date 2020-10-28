@@ -140,6 +140,8 @@ GEM
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
+    invisible_captcha (1.0.1)
+      rails (>= 4.2)
     ffi (1.12.2)
     font-awesome-sass (5.9.0)
       sassc (>= 1.11)
@@ -214,6 +216,8 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.14.2)
     msgpack (1.3.3)
+    rack-attack (6.3.0)
+      rack (>= 1.0, < 3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -365,6 +369,7 @@ GEM
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
+    invisible_captcha
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -379,6 +384,7 @@ GEM
       tins (~> 1.0)
     thor (1.0.1)
     thread_safe (0.3.6)
+    rack-attack
     tilt (2.0.10)
     tins (1.25.0)
       sync

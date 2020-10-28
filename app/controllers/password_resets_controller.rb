@@ -22,21 +22,26 @@ class PasswordResetsController < ApplicationController
   before_action :disable_password_reset, unless: -> { Rails.configuration.enable_email_verification }
   before_action :find_user, only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update]
-
+  invisible_captcha only: [:create], on_spam: :redirect_on_spam, on_timestamp_spam: :redirect_on_spam
   # POST /password_resets/new
   def new
   end
 
   # POST /password_resets
   def create
+    # Redirect back on too many requests recognized with rack attack
+    return redirect_back fallback_location: root_path, flash: { alert: I18n.t('too_many_requests') } if request.env['rack.attack.matched']
+
     begin
       # Check if user exists and throw an error if he doesn't
       @user = User.find_by!(email: params[:password_reset][:email].downcase, provider: @user_domain)
 
       send_password_reset_email(@user, @user.create_reset_digest)
-      redirect_to root_path
     rescue
       # User doesn't exist
+      redirect_to root_path, flash: { success: I18n.t("email_sent", email_type: t("reset_password.subtitle")) }
+    ensure
+      # Redirect with success message even on missing user to prevent enumeration of users
       redirect_to root_path, flash: { success: I18n.t("email_sent", email_type: t("reset_password.subtitle")) }
     end
   end
@@ -64,6 +69,15 @@ class PasswordResetsController < ApplicationController
   end
 
   private
+
+  # Redirects to the root path with a success message so that a bot can't find out whether his request was
+  # recognized as spam or not.
+  #
+  # @private
+  # @!method redirect_on_spam
+  def redirect_on_spam
+    redirect_to root_path, flash: { success: I18n.t("email_sent", email_type: t("reset_password.subtitle")) }
+  end
 
   def find_user
     @user = User.find_by(reset_digest: User.hash_token(params[:id]), provider: @user_domain)

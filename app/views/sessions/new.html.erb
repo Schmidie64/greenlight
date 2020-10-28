@@ -69,6 +69,7 @@
                 <div class="invalid-feedback d-block"><%= @user.errors.full_messages_for(:accepted_terms).first %></div>
               </div>
             <% end %>
+            <%= invisible_captcha %>
             <div class="card-footer px-0 pb-0">
               <% if recaptcha_enabled? %>
                 <div class="form-group">

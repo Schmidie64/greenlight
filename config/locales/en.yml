@@ -632,3 +632,4 @@ en:
     signin: Please sign in to access your account.
     title: Verify your email
     verification: Verification
+  too_many_requests: Too many requests were noticed, please try again later.

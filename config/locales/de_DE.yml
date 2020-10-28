@@ -630,3 +630,6 @@ de_DE:
     signin: "Bitte melden Sie sich an, um auf Ihr Konto zuzugreifen."
     title: Verifizierung Ihrer E-Mail-Adresse
     verification: Verifikation
+  too_many_requests: Es wurden zu viele Anfragen festgestellt, versuchen Sie es später erneut.
+  invisible_captcha:
+    sentence_for_humans: Lassen Sie dieses Feld leer, wenn Sie eine echte Person sind

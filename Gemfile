@@ -134,6 +134,12 @@ gem 'coveralls', require: false
 
 gem 'random_password'
 
+# Throttling abusive requests
+gem 'rack-attack'
+
+# Invisible Captcha against spambots
+gem 'invisible_captcha'
+
 # Adds helpers for the Google reCAPTCHA API
 gem "recaptcha"
 

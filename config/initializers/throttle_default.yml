@@ -1,0 +1,83 @@
+# This is the config file for the rack attack gem that gets initialized with the corresponding initializer. To modify
+# the config file just copy this file and set the path to the custom config with the environment variable
+# THROTTLE_CONFIG. For more information see https://github.com/kickstarter/rack-attack.
+throttle:
+  # Specifies whether the rack attack gem should be enabled or not. To disable rack attack just set this
+  # property to false.
+  enabled: true
+
+  # The limit (amount) of requests to all of the protected_paths that were made with the same value for a specified
+  # discriminator (e.g. the ip of the client) in the specified period in seconds. If the limit gets exceeded every
+  # requests gets tracked and must be handled in the appropriate action of the controller (this is already implemented
+  # for the specified protected_paths). After the period is finished the counter gets reset.
+  limit: 5 # amount
+  period: 300 # in seconds
+
+  # Paths that should be protected from abusive requests. If the element is just a string, then only all post requests
+  # for that path gets protected by default. To protect also other methods, you must specify a object with the
+  # properties path and methods (like the commented out example below).
+  protected_paths:
+    - '/u/login'
+    - '/signup'
+    - '/auth/ldap'
+    - '/password_resets'
+  #    # (if omniauth enabled, for example google)
+  #    - path: '/auth/google/callback'
+  #      methods:
+  #        - 'GET'
+  #        - 'POST'
+
+  # The properties of the request by which the requests amount gets incremented (discriminators). Each of them must have
+  # name, which will be used for the unique track name and a property. The property is an array that contains arrays or
+  # objects. If there is only an array it will be send to the object to get the value from the specified method with the
+  # specified params in the array. Since the same property could differ on different paths, it is possible to specify a
+  # paths array that contain the paths where the value can be accessed by the specified property array.
+  discriminators:
+    - name: 'ip'
+      property:
+        - - 'ip' # For all paths
+
+  # The params passed with the request by which the requests amount gets incremented (discriminators). Each of them must have
+  # name, which will be used for the unique track name and a property. The property is an array that contains arrays or
+  # objects. If there is only an array it will be send to the object to get the value from the specified method with the
+  # specified params in the array. Since the same property could differ on different paths, it is possible to specify a
+  # paths array that contain the paths where the value can be accessed by the specified property array.
+  params_discriminators:
+    - name: 'email'
+      property:
+        - paths:
+            - '/auth/ldap'
+            - '/u/login'
+          property:
+            - 'session'
+            - 'email'
+        - paths:
+            - '/signup'
+          property:
+            - 'email'
+        - paths:
+            - '/password_resets'
+          property:
+            - 'password_reset'
+            - 'email'
+
+  # IPs or IP ranges whose requests shouldn't be tracked, e.g. the your internal IPs.
+  trusted_ips:
+    - '127.0.0.1'
+    - '::1'
+
+  # The log level for safelist and track (exceeded limit) events. To disable the logging, just remove the corresponding
+  # property. Allowed are any of the following values: 'debug', 'info', 'warn', 'error', 'fatal'
+  tracks_log_level: 'warn'
+  safelist_log_level: 'info'
+
+#  # Per default rack attack uses Rails.cache to store the state. Its possible to specify a custom cache as follows.
+#  # The class property is the string of the cache store class that gets initialized with the specified params
+#  # and named params (keyword arguments). For more information see https://github.com/kickstarter/rack-attack#cache-store-configuration.
+#  cache:
+#    class: 'ActiveSupport::Cache::MemoryStore'
+#    params:
+#      - size: 67108864 # 64 Megabytes
+#    # Optional named params
+#    named_params:
+#      foo: 'bar'

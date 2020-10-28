@@ -24,6 +24,7 @@
           <%= form_for(:password_reset, url: password_resets_path) do |f| %>
             <%= f.label :email, t("forgot_password.email"), class: "form-label" %>
             <%= f.email_field :email, class: "form-control" %>
+            <%= invisible_captcha %>
             <br>
       
             <%= f.submit t("forgot_password.submit"), class: "btn btn-primary" %>
