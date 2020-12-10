@@ -173,6 +173,7 @@ nl:
         enabled: Altijd ingeschakeld
         optional: Optioneel
     rooms:
+      timeout: "Door de time-out van het serververzoek %{server} is de informatie over de status en deelnemers mogelijk niet correct"
       title: Server Kamers
       table:
         ended: "Beëindigd: %{session}"
@@ -577,6 +578,7 @@ nl:
     shared_access_success: Kamer met succes gedeeld
     shared_access_error: Er is een fout opgetreden bij het delen van de kamer
     start: Begin
+    search: Zoek een kamer...
     unavailable: Deze kamer is momenteel niet beschikbaar omdat de e-mail van de eigenaar niet is geverifieerd.
     update_settings_error: Er is een fout opgetreden bij het bijwerken van de kamerinstellingen
     update_settings_success: Kamerinstellingen succesvol bijgewerkt
