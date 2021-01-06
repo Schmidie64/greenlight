@@ -66,7 +66,6 @@ module BbbServer
       moderatorPW: room.moderator_pw,
       attendeePW: room.attendee_pw,
       moderatorOnlyMessage: options[:moderator_message],
-      muteOnStart: options[:mute_on_start] || false,
       "meta_#{META_LISTED}": options[:recording_default_visibility] || false,
       "meta_bbb-origin-version": Greenlight::Application::VERSION,
       "meta_bbb-origin": "Greenlight",
@@ -77,6 +76,7 @@ module BbbServer
       
     }
 
+    create_options[:muteOnStart] = options[:mute_on_start] if options[:mute_on_start]
     create_options[:guestPolicy] = "ASK_MODERATOR" if options[:require_moderator_approval]
 
     # Send the create request.
