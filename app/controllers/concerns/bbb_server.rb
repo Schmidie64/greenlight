@@ -70,7 +70,11 @@ module BbbServer
       "meta_#{META_LISTED}": options[:recording_default_visibility] || false,
       "meta_bbb-origin-version": Greenlight::Application::VERSION,
       "meta_bbb-origin": "Greenlight",
-      "meta_bbb-origin-server-name": options[:host]
+      "meta_bbb-origin-server-name": options[:host],
+      "meta_owner-name": room.owner.name,
+      "meta_owner-email": room.owner.email
+
+      
     }
 
     create_options[:muteOnStart] = options[:mute_on_start] if options[:mute_on_start]

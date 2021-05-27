@@ -37,7 +37,7 @@ $(document).on('turbolinks:load', function(){
     // $("#language-dropdown").on("show.bs.select", function(){
     //   $("#language-dropdown").selectpicker('val', $("#user_language").val())
     // })
-    
+
     // Update hidden field with new value
     $("#language-dropdown").on("changed.bs.select", function(){
       $("#user_language").val($("#language-dropdown").selectpicker('val'))

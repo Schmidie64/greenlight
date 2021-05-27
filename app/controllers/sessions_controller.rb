@@ -150,7 +150,7 @@ class SessionsController < ApplicationController
 
     return redirect_to(ldap_signin_path, alert: I18n.t("invalid_credentials")) unless result
 
-    @auth = parse_auth(result.first, ENV['LDAP_ROLE_FIELD'], ENV['LDAP_ATTRIBUTE_MAPPING'])
+    @auth = map_thm_roles(parse_auth(result.first, ENV['LDAP_ROLE_FIELD'], ENV['LDAP_ATTRIBUTE_MAPPING']))
 
     begin
       process_signin
@@ -165,6 +165,30 @@ class SessionsController < ApplicationController
   # Verify that GreenLight is configured to allow user signup.
   def check_user_signup_allowed
     redirect_to root_path unless Rails.configuration.allow_user_signup
+  end
+
+  def map_thm_roles(userInformations)
+
+    if User.with_role("Dozent/in*").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "Dozent/in*"
+      logger.info "[Manual] Role: Dozent/in"
+    elsif User.with_role("admin").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "admin"
+      logger.info "[Manual] Role: Admin"
+    elsif User.with_role("Tutor/in*").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "Tutor/in*"
+      logger.info "[Manual] Role: Tutor/in*"
+    elsif User.with_role("Fachschaft").where(username: userInformations['info']['nickname']).to_a[0].instance_of? User
+      userInformations['info']['roles'] = "Fachschaft"
+      logger.info "[Manual] Role: Fachschaft"
+    elsif userInformations['info']['roles']['M'] || userInformations['info']['roles']['J'] || userInformations['info']['roles']['L'] || userInformations['info']['roles']['P'] || userInformations['info']['roles']['W']
+      userInformations['info']['roles'] = "Dozent/in"
+    elsif userInformations['info']['roles']['I']
+      userInformations['info']['roles'] = "Tutor/in"
+    else
+      userInformations['info']['roles'] = "user"
+    end
+    userInformations
   end
 
   def session_params

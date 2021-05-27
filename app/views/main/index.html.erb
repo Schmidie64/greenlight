@@ -16,16 +16,21 @@
 <div class="background">
   <div class="container pt-9 pb-8">
     <div class="row">
-      <div class="col-md-12 col-sm-12 text-center">
-        <h1 id="main-text" class="display-4 mb-4"> <%= t("landing.welcome").html_safe %></h1>
-        <p class="lead offset-lg-2 col-lg-8 col-sm-12 "><%= t("landing.about", href: link_to(t("greenlight"), "https://bigbluebutton.org/2018/07/09/greenlight-2-0/", target: "_blank", rel: "noopener")).html_safe %></p>
-        <%= link_to "https://youtu.be/Hso8yLzkqj8", target: "_blank" do %>
-          <h4><%= t("landing.video") %> <i class="far fa-play-circle ml-1"></i></h4>
-        <% end %>
-      </div>
+     <div class="col-md-12 col-sm-12 text-center">
+         <h1 class="display-4 mb-4">Willkommen auf dem BBB-Server des Fachbereichs MNI</h1>
+     <p class="lead offset-lg-2 col-lg-8 col-sm-12 ">Auf diesem Server werden verschiedene kleinere Veranstaltungen, Besprechungen und vieles mehr stattfinden.<br>
+         Bei Fragen können Sie sich gerne an <a style="font-weight: bold;" href="mailto:pilos@thm.de">unseren Support</a> wenden.
+     </p>
+     <hr>
+     </div>
+           <div class="col-md-12 col-sm-12 text-center">
+     	<h1 class="display-4 mb-4">Wichtig!</h1>
+            <p class="lead offset-lg-2 col-lg-8 col-sm-12">Ab sofort, werden die Berechtigungen automatisch vergeben!<br>
+            <b>Lehrbeauftragte</b>, <b>MitarbeiterInnen</b> und <b>ProfessorInnen</b> erhalten standartmäßig die Gruppe <b>Dozent/in</b><br>
+              <b>TutorInnen</b> erhalten standartmäßig die Gruppe <b>"Tutor/in"</b><br>
+            Sollten Sie feststellen, dass Ihnen Berechtigungen fehlen, können Sie sich gerne an <a style="font-weight: bold;" href="mailto:pilos@thm.de">unseren Support</a> wenden!</p>
+            </div>
 
     </div>
   </div>
 </div>
-
-<%= render "main/components/features" %>
