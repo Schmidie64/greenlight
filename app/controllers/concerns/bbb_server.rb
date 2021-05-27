@@ -74,7 +74,7 @@ module BbbServer
       "meta_owner-name": room.owner.name,
       "meta_owner-email": room.owner.email
 
-      
+
     }
 
     create_options[:muteOnStart] = options[:mute_on_start] if options[:mute_on_start]
